@@ -24,6 +24,7 @@ function GameController(
     const board = Gameboard();
 
     
+    
     const printGameboard = () =>{
         console.table(board.gameboard);
     }
@@ -38,12 +39,30 @@ function GameController(
     ];
     
     const markCell = (row,column)=>{
-        board.gameboard[row][column]=players[0].token;
+        if(board.gameboard[row][column]===(1||2)){
+            console.log("This Cell is already Taken")
+            return
+        }
+        board.gameboard[row][column]=activePlayer.token;
+        swapPlayers();
         printGameboard();
+        console.log(`It's ${activePlayer.name}'s turn!`)
+
+        winAnnounce();
     }
 
-    return {board,printGameboard, markCell}
+    let activePlayer = players[0];
+    const swapPlayers = ()=>{
+        activePlayer = (activePlayer === players [0]) ? activePlayer = players[1] : activePlayer = players[0];
+    }
+
+    const winAnnounce =() =>{
+        console.log(row, column)
+    }
+
+    return {board,printGameboard, markCell, swapPlayers, activePlayer}
 }
 
 
 const gameOne = GameController();
+gameOne.markCell(0,0);
