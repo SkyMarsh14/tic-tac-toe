@@ -45,10 +45,10 @@ function GameController(
         }
         board.gameboard[row][column]=activePlayer.token;
         printGameboard();
-        console.log(`It's ${activePlayer.name}'s turn!`)
         
         winAnnounce(row,column);
         swapPlayers();
+        console.log(`It's ${activePlayer.name}'s turn!`)
     }
 
     let activePlayer = players[0];
@@ -56,7 +56,8 @@ function GameController(
         activePlayer = (activePlayer === players [0]) ? activePlayer = players[1] : activePlayer = players[0];
     }
 
-    
+    const getActivePlayer = () => activePlayer;
+
     const winAnnounce =(row,column) =>{
 
         let table = board.gameboard;
@@ -76,17 +77,21 @@ function GameController(
         
 
         if(winCondition()){
-            console.log(`${activePlayer.name} has won!`)
+            console.log(`${getActivePlayer()} has won!`)
         }
     
     }
-    return {board,printGameboard, markCell, swapPlayers, activePlayer}
+    return {board,printGameboard, markCell, swapPlayers, getActivePlayer}
 }
 
+function ScreenControll(){
+    const game = GameController();
+    const turnH1 = document.querySelector('.turnH1');
 
-const gameOne = GameController();
-gameOne.markCell(0,0);
-gameOne.markCell(1,0);
-gameOne.markCell(1,1);
-gameOne.markCell(2,0);
-gameOne.markCell(2,2);
+    function updateActivePlayer(){
+    turnH1.textContent = game.getActivePlayer();
+    }
+    return {game, turnH1, updateActivePlayer}
+}
+
+const play = ScreenControll();
