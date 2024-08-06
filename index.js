@@ -87,11 +87,28 @@ function GameController(
 function ScreenControll(){
     const game = GameController();
     const turnH1 = document.querySelector('.turnH1');
+    const boardDiv = document.querySelector('.boardDiv');
 
     function updateActivePlayer(){
-    turnH1.textContent = game.getActivePlayer();
+    turnH1.textContent = game.getActivePlayer().name;
     }
-    return {game, turnH1, updateActivePlayer}
+    function createTable(){
+        let Arr = game.board.gameboard;
+        Arr.forEach((row)=>row.forEach((col)=>{
+            const cell = document.createElement('button');
+            cell.classList.add("cell");
+            boardDiv.append(cell);
+        }))
+    }
+
+    return {game, updateActivePlayer, createTable}
 }
 
 const play = ScreenControll();
+
+function markCell(e){
+    console.log(e,this);
+}
+
+const buttons = document.querySelectorAll('.cell');
+buttons.forEach((btn)=>btn.addEventListener("click",markCell()));
