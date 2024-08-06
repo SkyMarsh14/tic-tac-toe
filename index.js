@@ -90,7 +90,7 @@ function ScreenControll(){
     const boardDiv = document.querySelector('.boardDiv');
 
     function updateActivePlayer(){
-    turnH1.textContent = game.getActivePlayer().name;
+    turnH1.textContent = `${game.getActivePlayer().name}'s Turn!`;
     }
     function createTable(){
         let Arr = game.board.gameboard;
@@ -105,6 +105,7 @@ function ScreenControll(){
 
             cell.addEventListener("click",(e)=>{
                 markCell(e);
+                updateActivePlayer();
             })
         }))
     }
@@ -123,4 +124,5 @@ function markCell(e){
     }else{
         e.currentTarget.textContent = "✕";
     }
+    e.target.disabled = true ;
 }
