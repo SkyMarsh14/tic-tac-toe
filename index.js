@@ -94,10 +94,18 @@ function ScreenControll(){
     }
     function createTable(){
         let Arr = game.board.gameboard;
-        Arr.forEach((row)=>row.forEach((col)=>{
+        Arr.forEach((row,indexRow)=>row.forEach((col,indexCol)=>{
             const cell = document.createElement('button');
             cell.classList.add("cell");
+            cell.setAttribute("data-index-row",`${indexRow}`);
+            cell.setAttribute("data-index-col",`${indexCol}`);
+
             boardDiv.append(cell);
+            
+
+            cell.addEventListener("click",(e)=>{
+                markCell(e);
+            })
         }))
     }
 
@@ -105,10 +113,14 @@ function ScreenControll(){
 }
 
 const play = ScreenControll();
+play.createTable();
 
 function markCell(e){
-    console.log(e,this);
+    const token = play.game.getActivePlayer().token;
+    play.game.swapPlayers()
+    if(token===1){
+        e.currentTarget.textContent = "〇";
+    }else{
+        e.currentTarget.textContent = "✕";
+    }
 }
-
-const buttons = document.querySelectorAll('.cell');
-buttons.forEach((btn)=>btn.addEventListener("click",markCell()));
