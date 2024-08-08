@@ -115,6 +115,7 @@ function ScreenControll(){
 
 const play = ScreenControll();
 play.createTable();
+play.updateActivePlayer();
 
 function markCell(e){
     const token = play.game.getActivePlayer().token;
@@ -124,5 +125,8 @@ function markCell(e){
     }else{
         e.currentTarget.textContent = "✕";
     }
+    const row = e.target.dataset.indexRow;
+    const column = e.target.dataset.indexCol;
+    play.game.board.gameboard[row][column] = token;
     e.target.disabled = true ;
 }
