@@ -47,15 +47,34 @@
 
   .boardDiv{
     display:grid;
-    grid-template-columns: repeat(3,10%);
+    grid-template-columns: repeat(3,150px);
+    grid-template-rows:repeat(3,150px);
   }
   .cell {
-    display: flex;
+    display:flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 60px;
     border: 1px solid grey;
     background: lightyellow;
+    font-size: clamp(16px,4vw,32px);
     cursor: pointer;
+  }
+  .win{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: gold;
+    font-size:3rem;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+  body{
+    display:grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }

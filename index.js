@@ -48,7 +48,7 @@ function GameController(
         
         winAnnounce(row,column);
         swapPlayers();
-        console.log(`It's ${activePlayer.name}'s turn!`)
+        console.log(`It's ${getActivePlayer().name}'s turn!`)
     }
 
     let activePlayer = players[0];
@@ -77,11 +77,14 @@ function GameController(
         
 
         if(winCondition()){
-            console.log(`${getActivePlayer()} has won!`)
+            console.log(`${getActivePlayer().name} has won!`)
+            play.turnH1.textContent = `${getActivePlayer().name} has won!`
+            play.turnH1.classList.add('win');
         }
+
     
     }
-    return {board,printGameboard, markCell, swapPlayers, getActivePlayer}
+    return {board,printGameboard, markCell, swapPlayers, getActivePlayer,winAnnounce}
 }
 
 function ScreenControll(){
@@ -104,29 +107,31 @@ function ScreenControll(){
             
 
             cell.addEventListener("click",(e)=>{
-                markCell(e);
                 updateActivePlayer();
+                markCell(e);
             })
         }))
     }
+    function markCell(e){
+        const token = game.getActivePlayer().token;
+        if(token===1){
+            e.currentTarget.textContent = "〇";
+        }else{
+            e.currentTarget.textContent = "✕";
+        }
+        const row = e.target.dataset.indexRow;
+        const column = e.target.dataset.indexCol;
+        play.game.board.gameboard[row][column] = token;
+        e.target.disabled = true ;
+        
+        game.winAnnounce(row,column);
+        play.game.swapPlayers()
+    }
 
-    return {game, updateActivePlayer, createTable}
+    return {game, updateActivePlayer, createTable,markCell,turnH1}
 }
 
 const play = ScreenControll();
 play.createTable();
 play.updateActivePlayer();
 
-function markCell(e){
-    const token = play.game.getActivePlayer().token;
-    play.game.swapPlayers()
-    if(token===1){
-        e.currentTarget.textContent = "〇";
-    }else{
-        e.currentTarget.textContent = "✕";
-    }
-    const row = e.target.dataset.indexRow;
-    const column = e.target.dataset.indexCol;
-    play.game.board.gameboard[row][column] = token;
-    e.target.disabled = true ;
-}
