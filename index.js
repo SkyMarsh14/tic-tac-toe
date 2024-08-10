@@ -63,13 +63,13 @@ function GameController(
         let table = board.gameboard;
 
         function winCondition(){
-            if(table[row].every((n)=>(n>0))){
+            if(table[row].every((n)=>(n===table[row][column]))){
                 return true;
-            }else if([table[0][column],table[1][column],table[2][column]].every((n)=>(n>0))){
+            }else if([table[0][column],table[1][column],table[2][column]].every((n)=>(n===table[row][column]))){
                 return true;
-            }else if([table[0][0],table[1][1],table[2][2]].every((n)=>(n>0))){
+            }else if([table[0][0],table[1][1],table[2][2]].every((n)=>(n===table[row][column]))){
                 return true;
-            }else if([table[0][2],table[1][1],table[2][0]].every((n)=>(n>0))){
+            }else if([table[0][2],table[1][1],table[2][0]].every((n)=>(n===table[row][column]))){
                 return true;
             }
         }
@@ -127,7 +127,7 @@ function ScreenControll(){
         game.winAnnounce(row,column);
         play.game.swapPlayers()
     }
-
+    
     return {game, updateActivePlayer, createTable,markCell,turnH1}
 }
 
