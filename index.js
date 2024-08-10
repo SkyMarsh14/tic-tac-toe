@@ -1,3 +1,5 @@
+let playerOneName; 
+let playerTwoName;
 function Gameboard(){
     const rows = 3;
     const columns = 3;
@@ -57,7 +59,6 @@ function GameController(
     }
 
     const getActivePlayer = () => activePlayer;
-
     const winAnnounce =(row,column) =>{
 
         let table = board.gameboard;
@@ -76,6 +77,7 @@ function GameController(
 
         
         const allCell = document.querySelectorAll('.cell');
+    
 
         if(winCondition()){
             console.log(`${getActivePlayer().name} has won!`)
@@ -95,8 +97,8 @@ function GameController(
     return {board,printGameboard, markCell, swapPlayers, getActivePlayer,winAnnounce}
 }
 
-function ScreenControll(){
-    const game = GameController();
+function ScreenController(){
+    const game = GameController(playerOneName,playerTwoName);
     const turnH1 = document.querySelector('.turnH1');
     const boardDiv = document.querySelector('.boardDiv');
 
@@ -128,17 +130,32 @@ function ScreenControll(){
         }
         const row = e.target.dataset.indexRow;
         const column = e.target.dataset.indexCol;
-        play.game.board.gameboard[row][column] = token;
+        game.board.gameboard[row][column] = token;
         e.target.disabled = true ;
         
         game.winAnnounce(row,column);
 
     }
-    
+
     return {game, updateActivePlayer, createTable,markCell,turnH1}
 }
 
-const play = ScreenControll();
-play.createTable();
-play.updateActivePlayer();
+function StartGame(){
+    const close = document.querySelector('dialog');
+    close.addEventListener("submit",e=>{
+        e.preventDefault();
+        const playerOne = document.querySelector('#playerOneName');
+        const playerTwo = document.querySelector('#playerTwoName');
+        playerOneName = playerOne.value;
+        playerTwoName = playerTwo.value;
+        play = ScreenController();
 
+        play.createTable();
+        play.updateActivePlayer();
+        
+        close.close();
+    })
+};
+
+let play;
+StartGame();
