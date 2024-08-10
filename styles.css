@@ -92,6 +92,7 @@
     display:flex;
     align-items: center;
     gap:2em;
+    flex-wrap:wrap;
   }
   dialog{
     border:none;
