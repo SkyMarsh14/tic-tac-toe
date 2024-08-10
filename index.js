@@ -75,20 +75,22 @@ function GameController(
         }
 
         
+        const allCell = document.querySelectorAll('.cell');
 
         if(winCondition()){
             console.log(`${getActivePlayer().name} has won!`)
             play.turnH1.textContent = `${getActivePlayer().name} has won!`
             play.turnH1.classList.add('win');
-        }
+            return;
+        }else if(Array.from(allCell).every(cell=>cell.disabled===true)){
+            play.turnH1.textContent = "Draw!";
+            play.turnH1.classList.add('win');
+            return;
+        };
+        play.game.swapPlayers();
+        play.updateActivePlayer();
 
-        (function(){
-            const allCell = document.querySelectorAll('.cell');
-            if(Array.from(allCell).every(cell=>cell.disabled===true)){
-                play.turnH1.textContent = "Draw!";
-                play.turnH1.classList.add('win');
-            }
-        })();
+
     }
     return {board,printGameboard, markCell, swapPlayers, getActivePlayer,winAnnounce}
 }
@@ -113,7 +115,6 @@ function ScreenControll(){
             
 
             cell.addEventListener("click",(e)=>{
-                updateActivePlayer();
                 markCell(e);
             })
         }))
@@ -131,7 +132,7 @@ function ScreenControll(){
         e.target.disabled = true ;
         
         game.winAnnounce(row,column);
-        play.game.swapPlayers()
+
     }
     
     return {game, updateActivePlayer, createTable,markCell,turnH1}
