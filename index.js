@@ -82,7 +82,13 @@ function GameController(
             play.turnH1.classList.add('win');
         }
 
-    
+        (function(){
+            const allCell = document.querySelectorAll('.cell');
+            if(Array.from(allCell).every(cell=>cell.disabled===true)){
+                play.turnH1.textContent = "Draw!";
+                play.turnH1.classList.add('win');
+            }
+        })();
     }
     return {board,printGameboard, markCell, swapPlayers, getActivePlayer,winAnnounce}
 }
