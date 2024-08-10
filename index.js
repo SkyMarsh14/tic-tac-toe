@@ -84,10 +84,12 @@ function GameController(
             play.turnH1.textContent = `${getActivePlayer().name} has won!`
             play.turnH1.classList.add('win');
             allCell.forEach(e=>e.disabled=true);
+            resetBtn();
             return;
         }else if(Array.from(allCell).every(cell=>cell.disabled===true)){
             play.turnH1.textContent = "Draw!";
             play.turnH1.classList.add('win');
+            resetBtn();
             return;
         };
         play.game.swapPlayers();
@@ -160,3 +162,31 @@ function StartGame(){
 
 let play;
 StartGame();
+
+function resetBtn(){
+    const resetBtn = document.createElement('button');
+    resetBtn.classList.add('reset');
+    const table = document.querySelector('.container');
+    table.append(resetBtn);
+    const span = document.createElement('span')
+    resetBtn.append(span);
+    span.textContent = "Reset Game";
+    resetBtn.addEventListener('click',e=>{
+        play.game.board.gameboard.forEach((arr, i) => {
+            arr.forEach((_, j) => {
+                play.game.board.gameboard[i][j] = 0;
+            });
+        });
+        const winText = document.querySelector('.win');
+        const cell = document.querySelectorAll('.cell');
+        cell.forEach((each)=>{
+            each.textContent=""
+            each.disabled = false;
+        })
+        winText.textContent="";
+        winText.classList.remove('win')
+        resetBtn.remove();
+        play.updateActivePlayer();
+    })
+
+}
