@@ -83,6 +83,7 @@ function GameController(
             console.log(`${getActivePlayer().name} has won!`)
             play.turnH1.textContent = `${getActivePlayer().name} has won!`
             play.turnH1.classList.add('win');
+            allCell.forEach(e=>e.disabled=true);
             return;
         }else if(Array.from(allCell).every(cell=>cell.disabled===true)){
             play.turnH1.textContent = "Draw!";
